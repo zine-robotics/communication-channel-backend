@@ -19,7 +19,7 @@ exports.adminMiddleware = (req, res, next) => {
 };
 
 exports.userMiddleware = (req, res, next) => {
-  if (req.user.role !== "user") {
+  if (req.user.role !== "fresher") {
     return res.status(400).json({ error: "You are not user" });
   }
   next();
