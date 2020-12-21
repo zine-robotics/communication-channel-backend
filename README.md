@@ -8,3 +8,18 @@ Backend API for Zine Communication Channel.
 
 health check
 ```/api```
+
+signin
+```/api/signin```
+
+
+signup
+```/api/signup```
+
+
+create room
+```/api/createroom```
+
+
+join room
+```api/joinroom```

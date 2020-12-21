@@ -5,7 +5,7 @@ const Conversation = require("../models/conversation");
 express = require("express");
 const router = express.Router();
 
-router.post("/createChatRoom", requireSignin, createRoom);
-router.post("/joinChatRoom", requireSignin, joinRoom);
+router.post("/createroom", requireSignin, createRoom);
+router.post("/joinroom", requireSignin, joinRoom);
 
 module.exports = router;
