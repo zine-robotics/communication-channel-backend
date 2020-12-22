@@ -22,4 +22,7 @@ create room
 
 
 join room
-```api/joinroom```
+```/api/joinroom```
+
+get list of all chat room
+```/api/rooms```
