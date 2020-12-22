@@ -1,0 +1,3 @@
+refactor the get("/rooms") route 
+write tests for all three chat routes
+write code for messenging part
