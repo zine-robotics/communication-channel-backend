@@ -7,15 +7,23 @@ exports.createRoom = (req, res) => {
       .json({ mesaage: "Invalid request to create chat room" });
   }
   const { conversationName } = req.body;
-  _chatRoom = new Conversation({ conversationName });
-  _chatRoom.save((error, data) => {
-    if (error) {
-      console.log(error);
-      return res.status(400).json({ message: "Failed to create chat room" });
-    }
+  Conversation.findOne({ conversationName }).exec((error, room) => {
+    if (error) return res.status(400).json({ error });
+    if (room) return res.status(400).json({ message: "Room already exists" });
+    else {
+      _chatRoom = new Conversation({ conversationName });
+      _chatRoom.save((error, data) => {
+        if (error) {
+          console.log(error);
+          return res
+            .status(400)
+            .json({ message: "Failed to create chat room" });
+        }
 
-    if (data) {
-      res.status(200).json({ message: "Succesfully created chatroom" });
+        if (data) {
+          res.status(200).json({ message: "Succesfully created chatroom" });
+        }
+      });
     }
   });
 };
