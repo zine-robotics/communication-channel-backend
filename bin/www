@@ -7,6 +7,11 @@
 var app = require("../app");
 var debug = require("debug")("communication-channel-backend:server");
 var http = require("http");
+const {
+  userJoin,
+  getCurrentUser,
+  createNewMessageInDb,
+} = require("../utils/chat");
 
 /**
  * Get port from environment and store in Express.
@@ -35,6 +40,24 @@ server.on("listening", onListening);
 const io = require("socket.io")(server);
 io.on("connection", (socket) => {
   console.log("Socket.io connected");
+
+  socket.on("join-room", (data) => {
+    const { userId, name, roomId } = data;
+    const user = userJoin(userId, name, roomId);
+    socket.join(user.room);
+  });
+
+  // when a new message is sent it is broadcasted to every user
+  socket.on("message", (data) => {
+    const { userId, message } = data;
+    const user = getCurrentUser(userId);
+    io.to(user.room).emit("message", {
+      userId,
+      sender: user.username,
+      message,
+    });
+    createNewMessageInDb(userId, message, user.room);
+  });
 });
 
 /**
