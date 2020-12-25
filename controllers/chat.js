@@ -1,7 +1,6 @@
 const Conversation = require("../models/conversation");
 
 exports.createRoom = (req, res) => {
-  console.log(req.body);
   if (!req.body) {
     return res
       .status(400)
