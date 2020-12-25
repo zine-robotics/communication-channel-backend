@@ -15,6 +15,7 @@ exports.signup = (req, res) => {
     email,
     password,
     rollNumber,
+    college,
     domainOfInterest,
   } = req.body;
 
@@ -24,6 +25,7 @@ exports.signup = (req, res) => {
     email,
     password,
     rollNumber,
+    college,
     domainOfInterest,
   });
 
@@ -59,6 +61,7 @@ exports.signin = (req, res) => {
           role,
           fullName,
           rollNumber,
+          college,
           domainOfInterest,
         } = user;
         res.status(200).json({
@@ -71,6 +74,7 @@ exports.signin = (req, res) => {
             role,
             fullName,
             rollNumber,
+            college,
             domainOfInterest,
           },
         });

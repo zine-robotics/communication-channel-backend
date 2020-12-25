@@ -35,6 +35,11 @@ const userSchema = new mongoose.Schema(
       trim: true,
       lowercase: true,
     },
+    college: {
+      type: String,
+      enum: ["IIIT", "MNIT"],
+      default: "MNIT"
+    },
     domainOfInterest: [
       {
         type: String,

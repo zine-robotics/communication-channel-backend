@@ -34,7 +34,7 @@ server.on("listening", onListening);
  */
 const io = require("socket.io")(server);
 io.on("connection", (socket) => {
-  console.log("Socet.io connected", socket);
+  console.log("Socket.io connected");
 });
 
 /**
