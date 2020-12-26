@@ -3,6 +3,7 @@ const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const path = require("path");
 
 require("dotenv").config();
 const URI = process.env.URI;
@@ -34,12 +35,14 @@ connectWithRetry(URI, {
 });
 
 var app = express();
-
+// remove this part after testing. this is for testing chatrooms only
+const publicDirectory = path.join(__dirname, "public");
 app.use(helmet());
 app.use(cors());
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(publicDirectory));
 
 app.use("/api", require("./routes/api"));
 app.use("/api", require("./routes/admin/auth"));
