@@ -1,8 +1,7 @@
 const { check, validationResult } = require("express-validator");
 
 exports.validateSignupRequest = [
-  check("firstName").notEmpty().withMessage("First Name is required"),
-  check("lastName").notEmpty().withMessage("Last Name is required"),
+  check("fullName").notEmpty().withMessage("Full Name is required"),
   check("email").isEmail().withMessage("Valid email is required"),
   check("password")
     .isLength({ min: 6 })
