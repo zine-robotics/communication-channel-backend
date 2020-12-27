@@ -56,7 +56,6 @@ exports.signin = (req, res) => {
           fullName,
           email,
           role,
-          fullName,
           rollNumber,
           domainOfInterest,
         } = user;
@@ -67,7 +66,6 @@ exports.signin = (req, res) => {
             fullName,
             email,
             role,
-            fullName,
             rollNumber,
             domainOfInterest,
           },
