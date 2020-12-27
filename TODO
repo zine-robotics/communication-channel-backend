@@ -1,3 +1,18 @@
 write code for messenging part
 update profile info
 Password forget
+fetching previous messages
+
+Additional features
+Read Unread count
+typing status(SOCKET)
+Active users(SOCKET)
+markdown render(for code)???
+image sharing(multer)/rendering
+mentioning in chats
+dm??
+
+admin-fresher?
+
+Frontend
+Replace Zine logo woth hq svg

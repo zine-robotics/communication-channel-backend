@@ -9,8 +9,7 @@ exports.signup = (req, res) => {
         .json({ message: "User with that email already exist" });
     else {
       const {
-        firstName,
-        lastName,
+        fullName,
         email,
         password,
         rollNumber,
@@ -18,8 +17,7 @@ exports.signup = (req, res) => {
       } = req.body;
 
       const _user = new User({
-        firstName,
-        lastName,
+        fullName,
         email,
         password,
         role: "admin",
@@ -55,8 +53,7 @@ exports.signin = (req, res) => {
         );
         const {
           _id,
-          firstName,
-          lastName,
+          fullName,
           email,
           role,
           fullName,
@@ -67,8 +64,7 @@ exports.signin = (req, res) => {
           token,
           user: {
             _id,
-            firstName,
-            lastName,
+            fullName,
             email,
             role,
             fullName,
