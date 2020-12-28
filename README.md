@@ -26,3 +26,6 @@ join room
 
 get list of all chat room
 ```/api/rooms```
+
+get all messages from a chat room
+```/api/messages```
