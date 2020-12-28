@@ -1,4 +1,9 @@
-const { createRoom, joinRoom, getRooms } = require("../controllers/chat");
+const {
+  createRoom,
+  joinRoom,
+  getRooms,
+  getMessages,
+} = require("../controllers/chat");
 const { requireSignin } = require("../middlewares");
 const Conversation = require("../models/conversation");
 
@@ -8,5 +13,6 @@ const router = express.Router();
 router.post("/createroom", requireSignin, createRoom);
 router.post("/joinroom", requireSignin, joinRoom);
 router.get("/rooms", requireSignin, getRooms);
+router.get("/messages", getMessages);
 
 module.exports = router;
