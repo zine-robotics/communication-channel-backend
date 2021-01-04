@@ -49,6 +49,7 @@ app.use("/api", require("./routes/api"));
 app.use("/api", require("./routes/admin/auth"));
 app.use("/api", require("./routes/auth"));
 app.use("/api", require("./routes/chat"));
+app.use("/api", require("./routes/info"))
 
 app.use((err, req, res, next) => {
   console.error(err);
