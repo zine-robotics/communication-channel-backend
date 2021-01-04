@@ -97,7 +97,7 @@ exports.joinRoom = (req, res) => {
 exports.getRooms = async (req, res) => {
   if (!req.body) {
     return res.status(400).json({
-      mesaage: "Invalid request to create chat room",
+      message: "Invalid request to create chat room",
     });
   }
   const userId = req.body.userId;
@@ -118,7 +118,7 @@ exports.getRooms = async (req, res) => {
 exports.getMessages = async (req, res) => {
   if (!req.body) {
     return res.status(400).json({
-      mesaage: "Invalid request to get messages",
+      message: "Invalid request to get messages",
     });
   }
   const { roomId } = req.body;

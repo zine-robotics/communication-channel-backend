@@ -12,7 +12,7 @@ const router = express.Router();
 
 router.post("/createroom", requireSignin, createRoom);
 router.post("/joinroom", requireSignin, joinRoom);
-router.get("/rooms", requireSignin, getRooms);
-router.get("/messages", requireSignin, getMessages);
+router.post("/rooms", requireSignin, getRooms);
+router.post("/messages", requireSignin, getMessages);
 
 module.exports = router;

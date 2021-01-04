@@ -3,6 +3,7 @@ Password forget
 
 Additional features
 Read Unread count
+avatars(gravatars till it is not implemented)
 typing status(SOCKET)
 Active users(SOCKET)
 markdown render(for code)???

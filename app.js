@@ -39,6 +39,7 @@ var app = express();
 const publicDirectory = path.join(__dirname, "public");
 app.use(helmet());
 app.use(cors());
+app.disable('etag');
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
