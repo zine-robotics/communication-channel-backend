@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const ObjectId = require("mongodb").ObjectId;
+
 exports.userInfo = async (req, res) => {
-  console.log(req.query.userId);
   const _userId = req.query.userId;
   userId = new ObjectId(_userId);
   User.findOne({ _id: userId })

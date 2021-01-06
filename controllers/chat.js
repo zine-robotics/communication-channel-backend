@@ -1,5 +1,6 @@
 const Conversation = require("../models/conversation");
 const Message = require("../models/message");
+const ObjectId = require("mongodb").ObjectId;
 
 exports.createRoom = (req, res) => {
   if (!req.body) {
@@ -101,17 +102,22 @@ exports.getRooms = async (req, res) => {
     });
   }
   const userId = req.body.userId;
-  const chats = await Conversation.find({
-    "participants.id": userId,
-  });
-  if (!chats) {
-    return res.status(400).json({
-      message: "Couldn't find any chats for that user",
+  try {
+    const chats = await Conversation.find({
+      "participants.id": userId,
     });
-  } else {
-    return res.status(200).json({
-      chats,
-    });
+    if (!chats) {
+      return res.status(400).json({
+        message: "Couldn't find any chats for that user",
+      });
+    } else {
+      return res.status(200).json({
+        chats,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error });
   }
 };
 
@@ -121,17 +127,23 @@ exports.getMessages = async (req, res) => {
       message: "Invalid request to get messages",
     });
   }
-  const { roomId } = req.body;
-  const messages = await Message.find({
-    conversationId: roomId,
-  });
-  if (!messages) {
-    return res.status(400).json({
-      message: "No Messages",
+  const _roomId = req.body.roomId;
+  const roomId = new ObjectId(_roomId);
+  try {
+    const messages = await Message.find({
+      conversationId: roomId,
     });
-  } else {
-    return res.status(200).json({
-      messages,
-    });
+    if (!messages) {
+      return res.status(400).json({
+        message: "No Messages",
+      });
+    } else {
+      return res.status(200).json({
+        messages,
+      });
+    }
+  } catch (error) {
+    console.log(error);
+    return res.status(400).json({ error });
   }
 };
