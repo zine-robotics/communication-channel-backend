@@ -36,14 +36,14 @@ connectWithRetry(URI, {
 
 var app = express();
 // remove this part after testing. this is for testing chatrooms only
-const publicDirectory = path.join(__dirname, "public");
+// const publicDirectory = path.join(__dirname, "public");
 app.use(helmet());
 app.use(cors());
 app.disable('etag');
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(express.static(publicDirectory));
+// app.use(express.static(publicDirectory));
 
 app.use("/api", require("./routes/api"));
 app.use("/api", require("./routes/admin/auth"));

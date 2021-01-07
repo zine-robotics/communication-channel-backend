@@ -122,7 +122,7 @@ exports.getRooms = async (req, res) => {
 };
 
 exports.getMessages = async (req, res) => {
-  if (!req.body) {
+  if (!req.body.roomId) {
     return res.status(400).json({
       message: "Invalid request to get messages",
     });
