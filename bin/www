@@ -11,6 +11,7 @@ const {
   userJoin,
   getCurrentUser,
   createNewMessageInDb,
+  userLeave,
 } = require("../utils/chat");
 
 /**
@@ -39,29 +40,41 @@ server.on("listening", onListening);
  */
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3000",
-    methods: ["GET", "POST"]
-  }
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST"],
+  },
 });
 io.on("connection", (socket) => {
   console.log("Socket.io connected");
 
   socket.on("join-room", (data) => {
     const { userId, name, roomId } = data;
-    const user = userJoin(userId, name, roomId);
-    socket.join(user.room);
+    if (roomId) {
+      const user = userJoin(userId, name, roomId);
+      console.log(`${name} joined room ${roomId}`);
+      socket.join(user.room);
+    }
+  });
+
+  socket.on("leave-room", (data) => {
+    const { userId, name } = data;
+    const user = userLeave(userId);
+    if (user) {
+      socket.leave(user.room);
+      console.log(`${name} left room ${user.room}`);
+    }
   });
 
   // when a new message is sent it is broadcasted to every user
   socket.on("message", (data) => {
-    const { userId, message } = data;
-    const user = getCurrentUser(userId);
+    const { senderId, content, createdAt } = data;
+    const user = getCurrentUser(senderId);
     io.to(user.room).emit("message", {
-      userId,
-      sender: user.username,
-      message,
+      senderId,
+      content,
+      createdAt,
     });
-    createNewMessageInDb(userId, message, user.room);
+    createNewMessageInDb(senderId, content, user.room);
   });
 });
 
