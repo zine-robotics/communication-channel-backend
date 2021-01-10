@@ -11,7 +11,7 @@ express = require("express");
 const router = express.Router();
 
 router.post("/createroom", requireSignin, createRoom);
-router.post("/joinroom", joinRoom);
+router.post("/joinroom", requireSignin, joinRoom);
 router.post("/rooms", requireSignin, getRooms);
 router.post("/messages", requireSignin, getMessages);
 
