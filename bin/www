@@ -40,7 +40,7 @@ server.on("listening", onListening);
  */
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: "https://communication-channel-frontend.herokuapp.com/",
     methods: ["GET", "POST"],
   },
 });
