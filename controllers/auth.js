@@ -19,7 +19,6 @@ exports.signup = (req, res) => {
         password,
         rollNumber,
         college,
-        domainOfInterest,
       } = req.body;
 
       const _user = new User({
@@ -28,7 +27,6 @@ exports.signup = (req, res) => {
         password,
         rollNumber,
         college,
-        domainOfInterest,
       });
 
       _user.save((error, data) => {
@@ -65,7 +63,6 @@ exports.signin = (req, res) => {
           role,
           rollNumber,
           college,
-          domainOfInterest,
         } = user;
         res.status(200).json({
           token,
@@ -76,7 +73,6 @@ exports.signin = (req, res) => {
             role,
             rollNumber,
             college,
-            domainOfInterest,
           },
         });
       } else {

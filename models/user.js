@@ -38,7 +38,6 @@ const userSchema = new mongoose.Schema(
     domainOfInterest: [
       {
         type: String,
-        required: true,
       },
     ],
   },
