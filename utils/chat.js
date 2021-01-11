@@ -31,11 +31,12 @@ function getRoomUsers(room) {
 // function findUserFromDb(userId) {
 //     const user = User.find.findOne({_id: })
 // }
-function createNewMessageInDb(userId, message, roomId) {
+function createNewMessageInDb(userId, message, roomId, senderName) {
   const _message = new Message({
     senderId: userId,
     content: message,
     conversationId: roomId,
+    senderName: senderName
   });
   _message.save((error, data) => {
     if (error) {

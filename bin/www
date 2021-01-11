@@ -67,14 +67,15 @@ io.on("connection", (socket) => {
 
   // when a new message is sent it is broadcasted to every user
   socket.on("message", (data) => {
-    const { senderId, content, createdAt } = data;
+    const { senderId, content, createdAt, senderName } = data;
     const user = getCurrentUser(senderId);
     io.to(user.room).emit("message", {
       senderId,
       content,
       createdAt,
+      senderName,
     });
-    createNewMessageInDb(senderId, content, user.room);
+    createNewMessageInDb(senderId, content, user.room, senderName);
   });
 });
 
