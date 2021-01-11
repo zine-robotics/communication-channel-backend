@@ -1,6 +1,7 @@
 const User = require("../../models/user");
 const jwt = require("jsonwebtoken");
 
+
 exports.signup = (req, res) => {
   User.findOne({ email: req.body.email }).exec((error, user) => {
     if (user)
@@ -13,8 +14,11 @@ exports.signup = (req, res) => {
         email,
         password,
         rollNumber,
-        domainOfInterest,
       } = req.body;
+
+      if(password !== process.env.ADMIN_PASSWORD){
+        return res.status(400).json({message: "No! you dont belong here."})
+      }
 
       const _user = new User({
         fullName,
@@ -22,7 +26,6 @@ exports.signup = (req, res) => {
         password,
         role: "admin",
         rollNumber,
-        domainOfInterest,
       });
 
       _user.save((error, data) => {
@@ -34,6 +37,7 @@ exports.signup = (req, res) => {
         if (data) {
           return res.status(200).json({
             message: "Registration Successful",
+            data
           });
         }
       });
@@ -49,7 +53,7 @@ exports.signin = (req, res) => {
         const token = jwt.sign(
           { _id: user._id, role: user.role },
           process.env.JWT_SECRET,
-          { expiresIn: "1h" }
+          { expiresIn: "365d" }
         );
         const {
           _id,
