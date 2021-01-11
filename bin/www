@@ -38,18 +38,18 @@ server.on("listening", onListening);
 /**
  * Setup Socket.io
  */
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "https://communication-channel-frontend.herokuapp.com",
-    methods: ["GET", "POST"],
-  },
-});
 // const io = require("socket.io")(server, {
 //   cors: {
-//     origin: "http://localhost:3001",
+//     origin: "https://communication-channel-frontend.herokuapp.com",
 //     methods: ["GET", "POST"],
 //   },
 // });
+const io = require("socket.io")(server, {
+  cors: {
+    origin: "http://localhost:3001",
+    methods: ["GET", "POST"],
+  },
+});
 io.on("connection", (socket) => {
   console.log("Socket.io connected");
 
