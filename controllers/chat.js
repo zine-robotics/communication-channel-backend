@@ -117,7 +117,9 @@ exports.getRooms = async (req, res) => {
     }
   } catch (error) {
     console.log(error);
-    return res.status(400).json({ error });
+    return res.status(400).json({
+      error,
+    });
   }
 };
 
@@ -143,7 +145,54 @@ exports.getMessages = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ error });
+    return res.status(400).json({
+      error,
+    });
+  }
+};
+
+exports.getDmRoom = async (req, res) => {
+  if (!req.query) {
+    return res.status(400).json("Invalid Request to get Roomid");
+  }
+  const firstUserId = new ObjectId(req.query.userId);
+  const secondUserId = new ObjectId(req.user._id);
+  const condition = {
+    $and: [
+      {
+        "participants.id": firstUserId,
+      },
+      {
+        "participants.id": secondUserId,
+      },
+    ],
+  };
+  try {
+    const rooms = await Conversation.find(condition);
+    const roomsHavingParticipants = rooms.filter(
+      (room) => room.participants.length === 2
+    );
+
+    if (roomsHavingParticipants.length !== 0) {
+      return res.json({
+        exists: true,
+        room: roomsHavingParticipants,
+      });
+    } else {
+      const conversationName = firstUserId + "," + secondUserId;
+      const chatRoom = new Conversation({
+        conversationName,
+        participants: [{ id: firstUserId }, { id: secondUserId }],
+      });
+      const room = await chatRoom.save();
+      return res.json({
+        exists: false,
+        room,
+      });
+    }
+  } catch (error) {
+    return res.status(400).json({
+      error,
+    });
   }
 };
