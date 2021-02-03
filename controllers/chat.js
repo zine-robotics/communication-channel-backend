@@ -188,7 +188,7 @@ exports.getDmRoom = async (req, res) => {
           { id: firstUserId },
           { id: secondUserId },
           { info: { id: firstUserId, name: firstUserName } },
-          { info: { id: secondUserId, name: { secondUserName } } },
+          { info: { id: secondUserId, name: secondUserName } },
         ],
       });
       const room = await chatRoom.save();
