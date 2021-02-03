@@ -155,11 +155,10 @@ exports.getDmRoom = async (req, res) => {
   if (!req.query) {
     return res.status(400).json("Invalid Request to get Roomid");
   }
-  console.log(req.query);
   const firstUserId = new ObjectId(req.query.userId);
-  const firstUserName = req.query.firstUserName
+  const firstUserName = req.query.firstUserName;
   const secondUserId = new ObjectId(req.user._id);
-  const secondUserName = req.query.secondUserName
+  const secondUserName = req.query.secondUserName;
   const condition = {
     $and: [
       {
@@ -185,7 +184,12 @@ exports.getDmRoom = async (req, res) => {
       const conversationName = firstUserName + "," + secondUserName;
       const chatRoom = new Conversation({
         conversationName,
-        participants: [{ id: firstUserId }, { id: secondUserId }],
+        participants: [
+          { id: firstUserId },
+          { id: secondUserId },
+          { info: { id: firstUserId, name: firstUserName } },
+          { info: { id: secondUserId, name: { secondUserName } } },
+        ],
       });
       const room = await chatRoom.save();
       return res.json({
