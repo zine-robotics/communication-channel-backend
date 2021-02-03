@@ -38,7 +38,7 @@ var app = express();
 
 app.use(helmet());
 app.use(cors());
-app.disable('etag');
+app.disable("etag");
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -47,7 +47,9 @@ app.use("/api", require("./routes/api"));
 app.use("/api", require("./routes/admin/auth"));
 app.use("/api", require("./routes/auth"));
 app.use("/api", require("./routes/chat"));
-app.use("/api", require("./routes/info"))
+app.use("/api", require("./routes/info"));
+app.use("/api", require("./routes/delete"));
+app.use("/api", require("./routes/add"));
 
 app.use((err, req, res, next) => {
   console.error(err);

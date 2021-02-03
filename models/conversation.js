@@ -8,6 +8,10 @@ const conversationSchema = mongoose.Schema(
     participants: [
       {
         id: { type: mongoose.Schema.Types.ObjectId, ref: "user" },
+        info: {
+          id: String,
+          name: String
+        }
       },
     ],
   },
