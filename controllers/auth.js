@@ -9,7 +9,7 @@ exports.signup = (req, res) => {
 
     if (user)
       return res
-        .status(400)
+        .status(422)
         .json({ message: "User with that email already exist" });
     else {
       const {
@@ -31,7 +31,7 @@ exports.signup = (req, res) => {
       _user.save((error, data) => {
         if (error) {
           console.log(error);
-          return res.status(400).json({ error: "Something went wrong" });
+          return res.status(403).json({ error: "Something went wrong" });
         }
 
         if (data) {
@@ -75,7 +75,7 @@ exports.signin = (req, res) => {
           },
         });
       } else {
-        return res.status(400).json({
+        return res.status(401).json({
           message: "Invalid Password",
         });
       }

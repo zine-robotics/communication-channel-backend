@@ -50,7 +50,8 @@ exports.joinRoom = (req, res) => {
       message: "Invalid request to join chatroom",
     });
   }
-  const { roomId, userId } = req.body;
+  const { roomId, userId, userName } = req.body;
+  console.log(req.body);
   Conversation.findOne({
     _id: roomId,
   }).exec((error, room) => {
@@ -68,10 +69,23 @@ exports.joinRoom = (req, res) => {
         const condition = {
           _id: roomId,
         };
+        // const update = {
+        //   $push: {
+        //     participants: {
+        //       id: userId,
+        //     },
+        //     participants: {
+        //       info: {
+        //         id: userId,
+        //         name: userName,
+        //       },
+        //     },
+        //   },
+        // };
         const update = {
           $push: {
             participants: {
-              id: userId,
+              $each: [{ id: userId }, { info: { id: userId, name: userName } }],
             },
           },
         };
@@ -171,14 +185,15 @@ exports.getDmRoom = async (req, res) => {
   };
   try {
     const rooms = await Conversation.find(condition);
+    console.log("one", rooms);
     const roomsHavingParticipants = rooms.filter(
-      (room) => room.participants.length === 2
+      (room) => room.participants.length === 4
     );
-
-    if (roomsHavingParticipants.length !== 0) {
+    console.log("two", roomsHavingParticipants);
+    if (roomsHavingParticipants.length > 0) {
       return res.json({
         exists: true,
-        room: roomsHavingParticipants,
+        room: roomsHavingParticipants[0],
       });
     } else {
       const conversationName = firstUserName + "," + secondUserName;
