@@ -46,7 +46,7 @@ server.on("listening", onListening);
 // });
 const io = require("socket.io")(server, {
   cors: {
-    origin: "http://localhost:3001",
+    origin: "http://workshop2020.zine.co.in",
     methods: ["GET", "POST"],
   },
 });
@@ -82,6 +82,12 @@ io.on("connection", (socket) => {
       senderName,
     });
     createNewMessageInDb(senderId, content, user.room, senderName);
+  });
+  // new dm room
+  socket.on("new-dmroom", (data) => {
+    console.log("new");
+    const {room} = data;
+    socket.broadcast.emit("new-dmroom", {room});
   });
 });
 
