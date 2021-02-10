@@ -46,9 +46,9 @@ router.get("/allusers", requireSignin, adminMiddleware, (req, res) => {
     .then((users) => {
       userEmail = [];
       users.map((user) => {
-        userEmail.push(user.email);
+        userEmail.push(user);
       });
-      return res.status(200).json({ userEmail });
+      return res.status(200).json({ userData: userEmail });
     })
     .catch((err) => {
       console.log(err);
@@ -58,7 +58,9 @@ router.get("/allusers", requireSignin, adminMiddleware, (req, res) => {
 
 router.post("/addremaining", requireSignin, adminMiddleware, (req, res) => {
   roomId = req.body.roomId;
-  User.find({})
+  userId = req.body.userId;
+  userName = req.body.userName;
+  User.find({_id: userId})
     .then((users) => {
       users.map((user) => {
         Conversation.findOne({ _id: roomId }).exec((error, room) => {
@@ -76,7 +78,7 @@ router.post("/addremaining", requireSignin, adminMiddleware, (req, res) => {
               const update = {
                 $push: {
                   participants: {
-                    id: user._id,
+                    $each: [{ id: userId }, { info: { id: userId, name: userName } }],
                   },
                 },
               };

@@ -3,7 +3,8 @@ const {
   joinRoom,
   getRooms,
   getMessages,
-  getDmRoom
+  getDmRoom,
+  joinRoomArray
 } = require("../controllers/chat");
 const { requireSignin, adminMiddleware } = require("../middlewares");
 const Conversation = require("../models/conversation");

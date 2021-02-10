@@ -51,8 +51,7 @@ exports.joinRoom = (req, res) => {
     });
   }
   const { roomId, userId, userName } = req.body;
-  console.log(req.body);
-  Conversation.findOne({
+    Conversation.findOne({
     _id: roomId,
   }).exec((error, room) => {
     if (error)
