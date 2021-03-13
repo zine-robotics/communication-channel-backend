@@ -22,7 +22,7 @@ exports.createRoom = (req, res) => {
           message: "Room already exists",
         });
       else {
-        _chatRoom = new Conversation({
+        const _chatRoom = new Conversation({
           conversationName,
         });
         _chatRoom.save((error, data) => {
@@ -51,7 +51,7 @@ exports.joinRoom = (req, res) => {
     });
   }
   const { roomId, userId, userName } = req.body;
-    Conversation.findOne({
+  Conversation.findOne({
     _id: roomId,
   }).exec((error, room) => {
     if (error)
@@ -59,7 +59,7 @@ exports.joinRoom = (req, res) => {
         error,
       });
     if (room) {
-      userExists = room.participants.find((u) => u.id == userId);
+      const userExists = room.participants.find((u) => u.id == userId);
       if (userExists) {
         return res.status(400).json({
           message: "User already exists in that chatroom",

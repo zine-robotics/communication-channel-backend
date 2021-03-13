@@ -38,7 +38,9 @@ function createNewMessageInDb(userId, message, roomId, senderName) {
     conversationId: roomId,
     senderName: senderName
   });
+  /* eslint-disable */
   _message.save((error, data) => {
+    /* eslint-enable */
     if (error) {
       console.log(error);
     }

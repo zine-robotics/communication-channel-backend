@@ -3,7 +3,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 exports.userInfo = async (req, res) => {
   const _userId = req.query.userId;
-  userId = new ObjectId(_userId);
+  const userId = new ObjectId(_userId);
   User.findOne({ _id: userId })
     .then((user) => {
       if (!user) {

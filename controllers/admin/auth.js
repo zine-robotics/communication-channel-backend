@@ -17,7 +17,7 @@ exports.signup = (req, res) => {
       } = req.body;
 
       if(password !== process.env.ADMIN_PASSWORD){
-        return res.status(400).json({message: "No! you dont belong here."})
+        return res.status(400).json({message: "No! you dont belong here."});
       }
 
       const _user = new User({

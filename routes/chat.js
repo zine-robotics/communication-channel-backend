@@ -4,12 +4,10 @@ const {
   getRooms,
   getMessages,
   getDmRoom,
-  joinRoomArray
 } = require("../controllers/chat");
 const { requireSignin, adminMiddleware } = require("../middlewares");
-const Conversation = require("../models/conversation");
 
-express = require("express");
+const express = require("express");
 const router = express.Router();
 
 router.post("/createroom", requireSignin, adminMiddleware, createRoom);

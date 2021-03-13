@@ -1,16 +1,13 @@
 const { adminMiddleware, requireSignin } = require("../middlewares");
-const Message = require("../models/message");
 const User = require("../models/user");
 const Conversation = require("../models/conversation");
-const message = require("../models/message");
 
-express = require("express");
+const express = require("express");
 
 const router = express.Router();
 
 router.post("/add", requireSignin, adminMiddleware, (req, res) => {
-  roomId = req.body.roomId;
-  console.log(roomId);
+  const roomId = req.body.roomId;
   User.find({})
     .then((users) => {
       users.map((user) => {
@@ -44,7 +41,7 @@ router.post("/add", requireSignin, adminMiddleware, (req, res) => {
 router.get("/allusers", requireSignin, adminMiddleware, (req, res) => {
   User.find({})
     .then((users) => {
-      userEmail = [];
+      var userEmail = [];
       users.map((user) => {
         userEmail.push(user);
       });
@@ -57,9 +54,9 @@ router.get("/allusers", requireSignin, adminMiddleware, (req, res) => {
 });
 
 router.post("/addremaining", requireSignin, adminMiddleware, (req, res) => {
-  roomId = req.body.roomId;
-  userId = req.body.userId;
-  userName = req.body.userName;
+  const roomId = req.body.roomId;
+  const userId = req.body.userId;
+  const userName = req.body.userName;
   User.find({_id: userId})
     .then((users) => {
       users.map((user) => {
@@ -68,7 +65,7 @@ router.post("/addremaining", requireSignin, adminMiddleware, (req, res) => {
             return res.status(400).json(error);
           }
           if (room) {
-            userExists = room.participants.find((u) => u.id == user._id);
+            const userExists = room.participants.find((u) => u.id == user._id);
             if (userExists) {
               console.log(`User with ${user._id} is in room`);
             } else {

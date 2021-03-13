@@ -2,9 +2,8 @@ const { adminMiddleware, requireSignin } = require("../middlewares");
 const Message = require("../models/message");
 const User = require("../models/user");
 const Conversation = require("../models/conversation");
-const conversation = require("../models/conversation");
 
-express = require("express");
+const express = require("express");
 
 const router = express.Router();
 
@@ -39,8 +38,8 @@ router.get(
   (req, res) => {
     Conversation.updateMany({}, {"$set": {"participants": []}})
       .then((data) => {
-          console.log("delete users array")
-        return res.status(200).json({data})
+        console.log("delete users array");
+        return res.status(200).json({data});
       })
       .catch((err) => {
         console.log(err);

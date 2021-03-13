@@ -3,7 +3,6 @@ const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
-const path = require("path");
 
 require("dotenv").config();
 const URI = process.env.URI;
@@ -51,9 +50,11 @@ app.use("/api", require("./routes/info"));
 app.use("/api", require("./routes/delete"));
 app.use("/api", require("./routes/add"));
 
+/* eslint-disable */
 app.use((err, req, res, next) => {
   console.error(err);
   res.status(422).send({ success: false, error: err.message });
 });
+/* eslint-enable */
 
 module.exports = app;
