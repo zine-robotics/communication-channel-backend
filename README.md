@@ -9,9 +9,9 @@ JWT_SECRET=<JWT_SECRET_KEY>
 ADMIN_PASSWORD=<ADMIN_PASSWORD>
 ```
 
-```npm i```
+```yarn```
 
-```npm start```
+```yarn start```
 
 ```PORT=3000```
 
