@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon ./bin/www",
-    "pretest": "./node_modules/.bin/eslint . --ignore-path .gitignore"
+    "pretest": "./node_modules/.bin/eslint . --ignore-path .gitignore",
+    "prepare": "husky install"
   },
   "dependencies": {
     "bcrypt": "^5.0.0",
