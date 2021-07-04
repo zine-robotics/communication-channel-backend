@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www",
+    "start": "node ./bin/www",
+    "dev": "nodemon ./bin/www",
     "pretest": "./node_modules/.bin/eslint . --ignore-path .gitignore",
     "prepare": "husky install"
   },
@@ -22,12 +23,12 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.5",
     "morgan": "~1.9.1",
-    "nodemon": "^2.0.6",
     "socket.io": "^2.3.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
     "@commitlint/config-conventional": "^11.0.0",
+    "nodemon": "^2.0.6",
     "eslint": "^7.22.0",
     "husky": "^5.1.3"
   }

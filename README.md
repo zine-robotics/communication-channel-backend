@@ -9,11 +9,19 @@ JWT_SECRET=<JWT_SECRET_KEY>
 ADMIN_PASSWORD=<ADMIN_PASSWORD>
 ```
 
-```yarn```
+## Steps to setup
 
-```yarn start```
+1.
+```sh
+cp .env.example .env
+```
+2. Populate .env file
 
-```PORT=3000```
+3. 
+```sh
+yarn
+yarn start
+```
 
 #### health check
 ```/api```

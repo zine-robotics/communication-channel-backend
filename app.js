@@ -5,7 +5,7 @@ const helmet = require("helmet");
 const mongoose = require("mongoose");
 
 require("dotenv").config();
-const URI = process.env.URI;
+const URI = process.env.URI || "mongodb://localhost:27017/zinedb";
 
 const connectWithRetry = (uris, options, maxAttempts = 5) => {
   connectWithRetry.timeout = connectWithRetry.timeout || 0;
