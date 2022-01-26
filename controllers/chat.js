@@ -4,7 +4,7 @@ const ObjectId = require("mongodb").ObjectId;
 
 exports.createRoom = (req, res) => {
   if (!req.body) {
-    return res.status(400).json({
+    return res.status(234).json({
       mesaage: "Invalid request to create chat room",
     });
   }
@@ -14,11 +14,11 @@ exports.createRoom = (req, res) => {
       conversationName,
     }).exec((error, room) => {
       if (error)
-        return res.status(400).json({
+        return res.status(234).json({
           error,
         });
       if (room)
-        return res.status(400).json({
+        return res.status(234).json({
           message: "Room already exists",
         });
       else {
@@ -28,7 +28,7 @@ exports.createRoom = (req, res) => {
         _chatRoom.save((error, data) => {
           if (error) {
             console.log(error);
-            return res.status(400).json({
+            return res.status(234).json({
               message: "Failed to create chat room",
             });
           }
@@ -45,46 +45,39 @@ exports.createRoom = (req, res) => {
 };
 
 exports.joinRoom = (req, res) => {
+  console.log(req.body)
   if (!req.body) {
     return res.status(400).json({
       message: "Invalid request to join chatroom",
     });
   }
-  const { roomId, userId, userName } = req.body;
+  const { roomID, userID } = req.body;
+  console.log(roomID);
   Conversation.findOne({
-    _id: roomId,
+    _id: roomID,
   }).exec((error, room) => {
-    if (error)
+    if (error){
+    console.log("therw ws an error")
       return res.status(400).json({
         error,
-      });
+      });}
     if (room) {
-      const userExists = room.participants.find((u) => u.id == userId);
+      console.log("found room");
+      const userExists = room.participants.find((u) => u.id == userID);
       if (userExists) {
+        console.log("therw adaws an error")
+
         return res.status(400).json({
           message: "User already exists in that chatroom",
         });
       } else {
         const condition = {
-          _id: roomId,
+          _id: roomID,
         };
-        // const update = {
-        //   $push: {
-        //     participants: {
-        //       id: userId,
-        //     },
-        //     participants: {
-        //       info: {
-        //         id: userId,
-        //         name: userName,
-        //       },
-        //     },
-        //   },
-        // };
         const update = {
           $push: {
             participants: {
-              $each: [{ id: userId }, { info: { id: userId, name: userName } }],
+              $each: [{ id: userID }, { info: { id: userID, name: "userName" } }],
             },
           },
         };
@@ -101,10 +94,11 @@ exports.joinRoom = (req, res) => {
           }
         );
       }
-    } else
+    } else{
+      console.log("no room")
       return res.status(400).json({
         message: "No room exist. Please create room first.",
-      });
+      });}
   });
 };
 
@@ -137,6 +131,7 @@ exports.getRooms = async (req, res) => {
 };
 
 exports.getMessages = async (req, res) => {
+  console.log(req.body.email)
   if (!req.body.roomId) {
     return res.status(400).json({
       message: "Invalid request to get messages",
@@ -148,6 +143,8 @@ exports.getMessages = async (req, res) => {
     const messages = await Message.find({
       conversationId: roomId,
     });
+    console.log(messages);
+
     if (!messages) {
       return res.status(400).json({
         message: "No Messages",
