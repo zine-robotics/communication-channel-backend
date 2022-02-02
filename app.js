@@ -3,9 +3,11 @@ const logger = require("morgan");
 const cors = require("cors");
 const helmet = require("helmet");
 const mongoose = require("mongoose");
+const fileUpload = require("express-fileupload")
 
 require("dotenv").config();
-const URI = process.env.URI || "mongodb://localhost:27017/zinedb";
+
+const URI = process.env.URI;
 
 const connectWithRetry = (uris, options, maxAttempts = 5) => {
   connectWithRetry.timeout = connectWithRetry.timeout || 0;
@@ -36,6 +38,11 @@ connectWithRetry(URI, {
 var app = express();
 
 app.use(helmet());
+
+app.use(fileUpload({
+  useTempFiles: true,
+}))
+
 app.use(cors());
 app.disable("etag");
 app.use(logger("dev"));

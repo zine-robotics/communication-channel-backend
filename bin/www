@@ -4,145 +4,146 @@
  * Module dependencies.
  */
 
-var app = require("../app");
-var debug = require("debug")("communication-channel-backend:server");
-var http = require("http");
-const {
-  userJoin,
-  getCurrentUser,
-  createNewMessageInDb,
-  userLeave,
-} = require("../utils/chat");
-
-/**
- * Get port from environment and store in Express.
- */
-
-var port = normalizePort(process.env.PORT || "3000");
-app.set("port", port);
-
-/**
- * Create HTTP server.
- */
-
-var server = http.createServer(app);
-
-/**
- * Listen on provided port, on all network interfaces.
- */
-
-server.listen(port);
-server.on("error", onError);
-server.on("listening", onListening);
-
-/**
- * Setup Socket.io
- */
-// const io = require("socket.io")(server, {
-//   cors: {
-//     origin: "https://communication-channel-frontend.herokuapp.com",
-//     methods: ["GET", "POST"],
-//   },
-// });
-const io = require("socket.io")(server, {
-  cors: {
-    origin: "http://workshop2020.zine.co.in",
-    methods: ["GET", "POST"],
-  },
-});
-io.on("connection", (socket) => {
-  console.log("Socket.io connected");
-
-  socket.on("join-room", (data) => {
-    const { userId, name, roomId } = data;
-    if (roomId) {
-      const user = userJoin(userId, name, roomId);
-      console.log(`${name} joined room ${roomId}`);
-      socket.join(user.room);
-    }
-  });
-
-  socket.on("leave-room", (data) => {
-    const { userId, name } = data;
-    const user = userLeave(userId);
-    if (user) {
-      socket.leave(user.room);
-      console.log(`${name} left room ${user.room}`);
-    }
-  });
-
-  // when a new message is sent it is broadcasted to every user
-  socket.on("message", (data) => {
-    const { senderId, content, createdAt, senderName } = data;
-    const user = getCurrentUser(senderId);
-    io.to(user.room).emit("message", {
-      senderId,
-      content,
-      createdAt,
-      senderName,
-    });
-    createNewMessageInDb(senderId, content, user.room, senderName);
-  });
-  // new dm room
-  socket.on("new-dmroom", (data) => {
-    console.log("new");
-    const {room} = data;
-    socket.broadcast.emit("new-dmroom", {room});
-  });
-});
-
-/**
- * Normalize a port into a number, string, or false.
- */
-
-function normalizePort(val) {
-  var port = parseInt(val, 10);
-
-  if (isNaN(port)) {
-    // named pipe
-    return val;
-  }
-
-  if (port >= 0) {
-    // port number
-    return port;
-  }
-
-  return false;
-}
-
-/**
- * Event listener for HTTP server "error" event.
- */
-
-function onError(error) {
-  if (error.syscall !== "listen") {
-    throw error;
-  }
-
-  var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
-
-  // handle specific listen errors with friendly messages
-  switch (error.code) {
-    case "EACCES":
-      console.error(bind + " requires elevated privileges");
-      process.exit(1);
-      break;
-    case "EADDRINUSE":
-      console.error(bind + " is already in use");
-      process.exit(1);
-      break;
-    default:
-      throw error;
-  }
-}
-
-/**
- * Event listener for HTTP server "listening" event.
- */
-
-function onListening() {
-  var addr = server.address();
-  var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-  debug("Listening on " + bind);
-}
+ var app = require("../app");
+ var debug = require("debug")("communication-channel-backend:server");
+ var http = require("http");
+ const {
+   userJoin,
+   getCurrentUser,
+   createNewMessageInDb,
+   userLeave,
+ } = require("../utils/chat");
+ 
+ /**
+  * Get port from environment and store in Express.
+  */
+ 
+ var port = normalizePort(process.env.PORT || "3000");
+ app.set("port", port);
+ 
+ /**
+  * Create HTTP server.
+  */
+ 
+ var server = http.createServer(app);
+ 
+ /**
+  * Listen on provided port, on all network interfaces.
+  */
+ 
+ server.listen(port);
+ server.on("error", onError);
+ server.on("listening", onListening);
+ 
+ /**
+  * Setup Socket.io
+  */
+ // const io = require("socket.io")(server, {
+ //   cors: {
+ //     origin: "https://communication-channel-frontend.herokuapp.com",
+ //     methods: ["GET", "POST"],
+ //   },
+ // });
+ const io = require("socket.io")(server, {
+   cors: {
+     origin: "http://workshop2020.zine.co.in",
+     methods: ["GET", "POST"],
+   },
+ });
+ io.on("connection", (socket) => {
+   console.log("Socket.io connected");
+ 
+   socket.on("join-room", (data) => {
+     const { userId, name, roomId } = data;
+     if (roomId) {
+       const user = userJoin(userId, name, roomId);
+       console.log(`${name} joined room ${roomId}`);
+       socket.join(user.room);
+     }
+   });
+ 
+   socket.on("leave-room", (data) => {
+     const { userId, name } = data;
+     const user = userLeave(userId);
+     if (user) {
+       socket.leave(user.room);
+       console.log(`${name} left room ${user.room}`);
+     }
+   });
+ 
+   // when a new message is sent it is broadcasted to every user
+   socket.on("message", (data) => {
+     const { senderId, content, createdAt, senderName } = data;
+     const user = getCurrentUser(senderId);
+     io.to(user.room).emit("message", {
+       senderId,
+       content,
+       createdAt,
+       senderName,
+     });
+     createNewMessageInDb(senderId, content, user.room, senderName);
+   });
+   // new dm room
+   socket.on("new-dmroom", (data) => {
+     console.log("new");
+     const {room} = data;
+     socket.broadcast.emit("new-dmroom", {room});
+   });
+ });
+ 
+ /**
+  * Normalize a port into a number, string, or false.
+  */
+ 
+ function normalizePort(val) {
+   var port = parseInt(val, 10);
+ 
+   if (isNaN(port)) {
+     // named pipe
+     return val;
+   }
+ 
+   if (port >= 0) {
+     // port number
+     return port;
+   }
+ 
+   return false;
+ }
+ 
+ /**
+  * Event listener for HTTP server "error" event.
+  */
+ 
+ function onError(error) {
+   if (error.syscall !== "listen") {
+     throw error;
+   }
+ 
+   var bind = typeof port === "string" ? "Pipe " + port : "Port " + port;
+ 
+   // handle specific listen errors with friendly messages
+   switch (error.code) {
+     case "EACCES":
+       console.error(bind + " requires elevated privileges");
+       process.exit(1);
+       break;
+     case "EADDRINUSE":
+       console.error(bind + " is already in use");
+       process.exit(1);
+       break;
+     default:
+       throw error;
+   }
+ }
+ 
+ /**
+  * Event listener for HTTP server "listening" event.
+  */
+ 
+ function onListening() {
+   var addr = server.address();
+   var bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
+   debug("Listening on " + bind);
+ }
+ 
